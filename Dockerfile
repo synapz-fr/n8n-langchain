@@ -1,4 +1,4 @@
-FROM docker.n8n.io/n8nio/n8n:1.112.6
+FROM docker.n8n.io/n8nio/n8n:1.113.3
 
 USER root
 
