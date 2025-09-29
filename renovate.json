@@ -12,7 +12,7 @@
   "packageRules": [
     {
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["n8nio/n8n"],
+      "matchPackageNames": ["docker.n8n.io/n8nio/n8n"],
       "groupName": "n8n upgrades",
       "schedule": ["before 9am on monday"]
     },
