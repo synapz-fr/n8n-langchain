@@ -1,8 +1,5 @@
 FROM node:20-bookworm-slim
 
-# -------------------------------
-# Dépendances système Playwright
-# -------------------------------
 RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libnss3 \
@@ -23,45 +20,11 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     fonts-liberation \
     wget \
-    tini \
  && rm -rf /var/lib/apt/lists/*
 
-# -------------------------------
-# Installer n8n
-# -------------------------------
-RUN npm install -g n8n
+RUN npm install -g n8n playwright
 
-# -------------------------------
-# Installer LangChain
-# -------------------------------
-RUN npm install -g \
-    langchain@0.3.3 \
-    @langchain/core@0.3.8 \
-    @langchain/openai@0.3.4
-
-# -------------------------------
-# Installer n8n-nodes-playwright
-# AU BON ENDROIT
-# -------------------------------
-RUN mkdir -p /home/node/.n8n/nodes/node_modules \
- && cd /home/node/.n8n/nodes/node_modules \
- && npm install n8n-nodes-playwright
-
-# -------------------------------
-# 🔴 PARTIE CRITIQUE 🔴
-# Exécuter le setup interne du node
-# -------------------------------
-RUN cd /home/node/.n8n/nodes/node_modules/n8n-nodes-playwright \
- && node nodes/scripts/setup-browsers.js
-
-# -------------------------------
-# Permissions
-# -------------------------------
-RUN chown -R node:node /home/node \
- && chown -R node:node /usr/local/lib/node_modules
+RUN npx playwright install chromium
 
 USER node
-ENV NODE_PATH=/usr/local/lib/node_modules
-
-ENTRYPOINT ["tini", "--"]
 CMD ["n8n"]
