@@ -41,17 +41,18 @@ RUN npm install -g \
 
 # -------------------------------
 # Installer n8n-nodes-playwright
-# AU BON ENDROIT (.n8n/nodes/node_modules)
+# AU BON ENDROIT
 # -------------------------------
 RUN mkdir -p /home/node/.n8n/nodes/node_modules \
  && cd /home/node/.n8n/nodes/node_modules \
  && npm install n8n-nodes-playwright
 
 # -------------------------------
-# Installer Chromium VIA LE NODE
+# 🔴 PARTIE CRITIQUE 🔴
+# Exécuter le setup interne du node
 # -------------------------------
 RUN cd /home/node/.n8n/nodes/node_modules/n8n-nodes-playwright \
- && npx playwright install chromium
+ && node nodes/scripts/setup-browsers.js
 
 # -------------------------------
 # Permissions
