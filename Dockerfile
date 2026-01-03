@@ -1,4 +1,4 @@
-FROM docker.n8n.io/n8nio/n8n:stable-debian
+FROM n8nio/n8n:latest-debian
 
 USER root
 
