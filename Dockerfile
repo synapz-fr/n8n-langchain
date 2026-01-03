@@ -1,4 +1,3 @@
-# Base Debian explicite (PAS Alpine, PAS de tag ambigu)
 FROM node:20-bookworm-slim
 
 # -------------------------------
@@ -33,7 +32,7 @@ RUN apt-get update && apt-get install -y \
 RUN npm install -g n8n
 
 # -------------------------------
-# Installer LangChain (global)
+# Installer LangChain
 # -------------------------------
 RUN npm install -g \
     langchain@0.3.3 \
@@ -42,7 +41,6 @@ RUN npm install -g \
 
 # -------------------------------
 # Installer n8n-nodes-playwright
-# SANS npm init, SANS package.json
 # -------------------------------
 RUN mkdir -p /home/node/.n8n/node_modules \
  && cd /home/node/.n8n/node_modules \
@@ -50,25 +48,19 @@ RUN mkdir -p /home/node/.n8n/node_modules \
 
 # -------------------------------
 # Installer Chromium via Playwright
-# (OFFICIEL, supporté, Debian)
 # -------------------------------
 RUN cd /home/node/.n8n/node_modules/n8n-nodes-playwright \
  && npx playwright install chromium
 
 # -------------------------------
-# Permissions propres
+# Permissions
 # -------------------------------
-RUN useradd -m node \
- && chown -R node:node /home/node \
+RUN chown -R node:node /home/node \
  && chown -R node:node /usr/local/lib/node_modules
 
 USER node
 
-# Pour que n8n puisse require LangChain
 ENV NODE_PATH=/usr/local/lib/node_modules
 
-# -------------------------------
-# Entrypoint n8n propre
-# -------------------------------
 ENTRYPOINT ["tini", "--"]
 CMD ["n8n"]
