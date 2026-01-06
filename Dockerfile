@@ -1,30 +1,9 @@
-FROM node:20-bookworm-slim
+FROM docker.n8n.io/n8nio/n8n:stable
 
-RUN apt-get update && apt-get install -y \
-    libglib2.0-0 \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libdrm2 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
-    libxrandr2 \
-    libgbm1 \
-    libasound2 \
-    libpangocairo-1.0-0 \
-    libpango-1.0-0 \
-    libgtk-3-0 \
-    ca-certificates \
-    fonts-liberation \
-    wget \
- && rm -rf /var/lib/apt/lists/*
+USER root
 
-RUN npm install -g n8n playwright
-
-RUN npx playwright install chromium
+# Mets à jour npm pour éviter les warnings moisis
+RUN npm install -g npm@latest \
+    && npm install -g langchain @langchain/core
 
 USER node
-CMD ["n8n"]
