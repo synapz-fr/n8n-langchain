@@ -1,4 +1,4 @@
-FROM docker.n8n.io/n8nio/n8n:stable
+FROM docker.n8nio/n8n:nightly-ec68851
 
 USER root
 
